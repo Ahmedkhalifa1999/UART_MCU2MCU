@@ -1,0 +1,39 @@
+17:40:27 **** Incremental Build of configuration Debug for project MCU1_Buttons ****
+make all 
+Building file: ../UART.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"UART.d" -MT"UART.o" -c -o "UART.o" "../UART.c"
+Finished building: ../UART.c
+ 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: MCU1_Buttons.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,MCU1_Buttons.map -mmcu=atmega16 -o "MCU1_Buttons.elf"  ./UART.o ./main.o   
+Finished building target: MCU1_Buttons.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S MCU1_Buttons.elf  >"MCU1_Buttons.lss"
+Finished building: MCU1_Buttons.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 MCU1_Buttons.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:     468 bytes (2.9% Full)
+(.text + .data + .bootloader)
+
+Data:          0 bytes (0.0% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+17:40:28 Build Finished. 0 errors, 0 warnings. (took 961ms)
+

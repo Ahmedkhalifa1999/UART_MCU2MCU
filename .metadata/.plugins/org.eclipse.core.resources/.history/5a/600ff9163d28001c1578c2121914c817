@@ -1,0 +1,14 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+
+#include "GPIO.h"
+#include "UART.h"
+
+int main(void) {
+	GPIO_setPinDirection(PORTA_ID, 0, PIN_INPUT)
+}

@@ -1,0 +1,286 @@
+
+MCU1_Buttons.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001d4  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .stab         0000063c  00000000  00000000  00000228  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  2 .stabstr      00000838  00000000  00000000  00000864  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 8b 00 	call	0x116	; 0x116 <main>
+  64:	0c 94 e8 00 	jmp	0x1d0	; 0x1d0 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <UART_init>:
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include "UART.h"
+
+void UART_init(directionMode dir, charSize cSize) {
+  6c:	df 93       	push	r29
+  6e:	cf 93       	push	r28
+  70:	00 d0       	rcall	.+0      	; 0x72 <UART_init+0x6>
+  72:	cd b7       	in	r28, 0x3d	; 61
+  74:	de b7       	in	r29, 0x3e	; 62
+  76:	89 83       	std	Y+1, r24	; 0x01
+  78:	6a 83       	std	Y+2, r22	; 0x02
+	UCSRC = (UCSRC & ~ 0x06) | (cSize); /*Set character size*/
+  7a:	a0 e4       	ldi	r26, 0x40	; 64
+  7c:	b0 e0       	ldi	r27, 0x00	; 0
+  7e:	e0 e4       	ldi	r30, 0x40	; 64
+  80:	f0 e0       	ldi	r31, 0x00	; 0
+  82:	80 81       	ld	r24, Z
+  84:	98 2f       	mov	r25, r24
+  86:	99 7f       	andi	r25, 0xF9	; 249
+  88:	8a 81       	ldd	r24, Y+2	; 0x02
+  8a:	89 2b       	or	r24, r25
+  8c:	8c 93       	st	X, r24
+	UCSRA |= (1<<U2X);
+  8e:	ab e2       	ldi	r26, 0x2B	; 43
+  90:	b0 e0       	ldi	r27, 0x00	; 0
+  92:	eb e2       	ldi	r30, 0x2B	; 43
+  94:	f0 e0       	ldi	r31, 0x00	; 0
+  96:	80 81       	ld	r24, Z
+  98:	82 60       	ori	r24, 0x02	; 2
+  9a:	8c 93       	st	X, r24
+	UBRRH = 0x80;
+  9c:	e0 e4       	ldi	r30, 0x40	; 64
+  9e:	f0 e0       	ldi	r31, 0x00	; 0
+  a0:	80 e8       	ldi	r24, 0x80	; 128
+  a2:	80 83       	st	Z, r24
+	UBRRL = 25; /*set Baud Rate too 9600*/
+  a4:	e9 e2       	ldi	r30, 0x29	; 41
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	89 e1       	ldi	r24, 0x19	; 25
+  aa:	80 83       	st	Z, r24
+	UCSRB = (UCSRB & ~0x18) | (dir); /*Receiver & Transmitter Enable Bits)*/
+  ac:	aa e2       	ldi	r26, 0x2A	; 42
+  ae:	b0 e0       	ldi	r27, 0x00	; 0
+  b0:	ea e2       	ldi	r30, 0x2A	; 42
+  b2:	f0 e0       	ldi	r31, 0x00	; 0
+  b4:	80 81       	ld	r24, Z
+  b6:	98 2f       	mov	r25, r24
+  b8:	97 7e       	andi	r25, 0xE7	; 231
+  ba:	89 81       	ldd	r24, Y+1	; 0x01
+  bc:	89 2b       	or	r24, r25
+  be:	8c 93       	st	X, r24
+}
+  c0:	0f 90       	pop	r0
+  c2:	0f 90       	pop	r0
+  c4:	cf 91       	pop	r28
+  c6:	df 91       	pop	r29
+  c8:	08 95       	ret
+
+000000ca <UART_send>:
+
+void UART_send(char data) {
+  ca:	df 93       	push	r29
+  cc:	cf 93       	push	r28
+  ce:	0f 92       	push	r0
+  d0:	cd b7       	in	r28, 0x3d	; 61
+  d2:	de b7       	in	r29, 0x3e	; 62
+  d4:	89 83       	std	Y+1, r24	; 0x01
+	while (!(UCSRA & (1<<UDRE))); /*waiting for Transmit Data Register to be empty*/
+  d6:	eb e2       	ldi	r30, 0x2B	; 43
+  d8:	f0 e0       	ldi	r31, 0x00	; 0
+  da:	80 81       	ld	r24, Z
+  dc:	88 2f       	mov	r24, r24
+  de:	90 e0       	ldi	r25, 0x00	; 0
+  e0:	80 72       	andi	r24, 0x20	; 32
+  e2:	90 70       	andi	r25, 0x00	; 0
+  e4:	00 97       	sbiw	r24, 0x00	; 0
+  e6:	b9 f3       	breq	.-18     	; 0xd6 <UART_send+0xc>
+	UDR = data;
+  e8:	ec e2       	ldi	r30, 0x2C	; 44
+  ea:	f0 e0       	ldi	r31, 0x00	; 0
+  ec:	89 81       	ldd	r24, Y+1	; 0x01
+  ee:	80 83       	st	Z, r24
+}
+  f0:	0f 90       	pop	r0
+  f2:	cf 91       	pop	r28
+  f4:	df 91       	pop	r29
+  f6:	08 95       	ret
+
+000000f8 <UART_receive>:
+
+char UART_receive() {
+  f8:	df 93       	push	r29
+  fa:	cf 93       	push	r28
+  fc:	cd b7       	in	r28, 0x3d	; 61
+  fe:	de b7       	in	r29, 0x3e	; 62
+	while (!(UCSRA & (1<<RXC))); /*Waiting for Receive Data Register to be empty*/
+ 100:	eb e2       	ldi	r30, 0x2B	; 43
+ 102:	f0 e0       	ldi	r31, 0x00	; 0
+ 104:	80 81       	ld	r24, Z
+ 106:	88 23       	and	r24, r24
+ 108:	dc f7       	brge	.-10     	; 0x100 <UART_receive+0x8>
+	return UDR;
+ 10a:	ec e2       	ldi	r30, 0x2C	; 44
+ 10c:	f0 e0       	ldi	r31, 0x00	; 0
+ 10e:	80 81       	ld	r24, Z
+}
+ 110:	cf 91       	pop	r28
+ 112:	df 91       	pop	r29
+ 114:	08 95       	ret
+
+00000116 <main>:
+#include "GPIO.h"
+#include "UART.h"
+
+#include <avr/io.h>
+
+int main(void) {
+ 116:	df 93       	push	r29
+ 118:	cf 93       	push	r28
+ 11a:	cd b7       	in	r28, 0x3d	; 61
+ 11c:	de b7       	in	r29, 0x3e	; 62
+	GPIO_setPinDirection(PORTA_ID, 0, PIN_INPUT);
+ 11e:	aa e3       	ldi	r26, 0x3A	; 58
+ 120:	b0 e0       	ldi	r27, 0x00	; 0
+ 122:	ea e3       	ldi	r30, 0x3A	; 58
+ 124:	f0 e0       	ldi	r31, 0x00	; 0
+ 126:	80 81       	ld	r24, Z
+ 128:	8e 7f       	andi	r24, 0xFE	; 254
+ 12a:	8c 93       	st	X, r24
+	GPIO_setPinDirection(PORTA_ID, 1, PIN_INPUT);
+ 12c:	aa e3       	ldi	r26, 0x3A	; 58
+ 12e:	b0 e0       	ldi	r27, 0x00	; 0
+ 130:	ea e3       	ldi	r30, 0x3A	; 58
+ 132:	f0 e0       	ldi	r31, 0x00	; 0
+ 134:	80 81       	ld	r24, Z
+ 136:	8d 7f       	andi	r24, 0xFD	; 253
+ 138:	8c 93       	st	X, r24
+	GPIO_setPinDirection(PORTA_ID, 2, PIN_INPUT);
+ 13a:	aa e3       	ldi	r26, 0x3A	; 58
+ 13c:	b0 e0       	ldi	r27, 0x00	; 0
+ 13e:	ea e3       	ldi	r30, 0x3A	; 58
+ 140:	f0 e0       	ldi	r31, 0x00	; 0
+ 142:	80 81       	ld	r24, Z
+ 144:	8b 7f       	andi	r24, 0xFB	; 251
+ 146:	8c 93       	st	X, r24
+
+	GPIO_setPinPullUp(PORTA_ID, 0, PULLUP_ENABLED);
+ 148:	ab e3       	ldi	r26, 0x3B	; 59
+ 14a:	b0 e0       	ldi	r27, 0x00	; 0
+ 14c:	eb e3       	ldi	r30, 0x3B	; 59
+ 14e:	f0 e0       	ldi	r31, 0x00	; 0
+ 150:	80 81       	ld	r24, Z
+ 152:	81 60       	ori	r24, 0x01	; 1
+ 154:	8c 93       	st	X, r24
+	GPIO_setPinPullUp(PORTA_ID, 1, PULLUP_ENABLED);
+ 156:	ab e3       	ldi	r26, 0x3B	; 59
+ 158:	b0 e0       	ldi	r27, 0x00	; 0
+ 15a:	eb e3       	ldi	r30, 0x3B	; 59
+ 15c:	f0 e0       	ldi	r31, 0x00	; 0
+ 15e:	80 81       	ld	r24, Z
+ 160:	82 60       	ori	r24, 0x02	; 2
+ 162:	8c 93       	st	X, r24
+	GPIO_setPinPullUp(PORTA_ID, 2, PULLUP_ENABLED);
+ 164:	ab e3       	ldi	r26, 0x3B	; 59
+ 166:	b0 e0       	ldi	r27, 0x00	; 0
+ 168:	eb e3       	ldi	r30, 0x3B	; 59
+ 16a:	f0 e0       	ldi	r31, 0x00	; 0
+ 16c:	80 81       	ld	r24, Z
+ 16e:	84 60       	ori	r24, 0x04	; 4
+ 170:	8c 93       	st	X, r24
+
+	UART_init(TRANSMIT, FIVE);
+ 172:	88 e0       	ldi	r24, 0x08	; 8
+ 174:	60 e0       	ldi	r22, 0x00	; 0
+ 176:	0e 94 36 00 	call	0x6c	; 0x6c <UART_init>
+
+	while(1) {
+		if (!(GPIO_readPin(PORTA_ID, 2))) {
+ 17a:	e9 e3       	ldi	r30, 0x39	; 57
+ 17c:	f0 e0       	ldi	r31, 0x00	; 0
+ 17e:	80 81       	ld	r24, Z
+ 180:	88 2f       	mov	r24, r24
+ 182:	90 e0       	ldi	r25, 0x00	; 0
+ 184:	84 70       	andi	r24, 0x04	; 4
+ 186:	90 70       	andi	r25, 0x00	; 0
+ 188:	00 97       	sbiw	r24, 0x00	; 0
+ 18a:	21 f4       	brne	.+8      	; 0x194 <main+0x7e>
+			UART_send(0);
+ 18c:	80 e0       	ldi	r24, 0x00	; 0
+ 18e:	0e 94 65 00 	call	0xca	; 0xca <UART_send>
+ 192:	f3 cf       	rjmp	.-26     	; 0x17a <main+0x64>
+		}
+		else if (!(GPIO_readPin(PORTA_ID, 0))) {
+ 194:	e9 e3       	ldi	r30, 0x39	; 57
+ 196:	f0 e0       	ldi	r31, 0x00	; 0
+ 198:	80 81       	ld	r24, Z
+ 19a:	88 2f       	mov	r24, r24
+ 19c:	90 e0       	ldi	r25, 0x00	; 0
+ 19e:	81 70       	andi	r24, 0x01	; 1
+ 1a0:	90 70       	andi	r25, 0x00	; 0
+ 1a2:	00 97       	sbiw	r24, 0x00	; 0
+ 1a4:	21 f4       	brne	.+8      	; 0x1ae <main+0x98>
+			UART_send(1);
+ 1a6:	81 e0       	ldi	r24, 0x01	; 1
+ 1a8:	0e 94 65 00 	call	0xca	; 0xca <UART_send>
+ 1ac:	e6 cf       	rjmp	.-52     	; 0x17a <main+0x64>
+		}
+		else if (!(GPIO_readPin(PORTA_ID, 1))) {
+ 1ae:	e9 e3       	ldi	r30, 0x39	; 57
+ 1b0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1b2:	80 81       	ld	r24, Z
+ 1b4:	88 2f       	mov	r24, r24
+ 1b6:	90 e0       	ldi	r25, 0x00	; 0
+ 1b8:	82 70       	andi	r24, 0x02	; 2
+ 1ba:	90 70       	andi	r25, 0x00	; 0
+ 1bc:	00 97       	sbiw	r24, 0x00	; 0
+ 1be:	21 f4       	brne	.+8      	; 0x1c8 <main+0xb2>
+			UART_send(2);
+ 1c0:	82 e0       	ldi	r24, 0x02	; 2
+ 1c2:	0e 94 65 00 	call	0xca	; 0xca <UART_send>
+ 1c6:	d9 cf       	rjmp	.-78     	; 0x17a <main+0x64>
+		}
+		else {
+			UART_send(0);
+ 1c8:	80 e0       	ldi	r24, 0x00	; 0
+ 1ca:	0e 94 65 00 	call	0xca	; 0xca <UART_send>
+ 1ce:	d5 cf       	rjmp	.-86     	; 0x17a <main+0x64>
+
+000001d0 <_exit>:
+ 1d0:	f8 94       	cli
+
+000001d2 <__stop_program>:
+ 1d2:	ff cf       	rjmp	.-2      	; 0x1d2 <__stop_program>

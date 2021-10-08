@@ -1,0 +1,46 @@
+/*
+ * GPIO.h
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#ifndef GPIO_H_
+#define GPIO_H_
+
+enum {
+	PORTA_ID = 0,
+	PORTB_ID = 3,
+	PORTC_ID = 6,
+	PORTD_ID = 9
+};
+
+enum {
+	PIN_INPUT = 0,
+	PIN_OUTPUT = 1
+};
+
+enum {
+	PORT_INPUT = 0,
+	PORT_OUTPUT = 0xFF
+};
+
+enum {
+	PULLUP_DISABLED = 0,
+	PULLUP_ENABLED = 1
+};
+
+#define GPIO_setPinDirection(ID, PIN, DIRECTION) \
+	*((volatile *char)(0x1A - (ID))) = DIRECTION? ((*((volatile *char)(0x1A - (ID)))) | (1<<(PIN))):((*((volatile *char)(0x1A - (ID)))) & ~(1<<(PIN)))
+#define GPIO_setPortDirection(ID, DIRECION) 0
+
+#define GPIO_setPinPullUp(ID, PIN, state) 0
+#define GPIO_setPortPullUp(ID, state) 0
+
+#define GPIO_readPort(ID) 0
+#define GPIO_writePort(ID, data) 0
+
+#define GPIO_readPin(ID, PIN) 0
+#define GPIO_writePin(ID, PIN, data) 0
+
+#endif /* GPIO_H_ */

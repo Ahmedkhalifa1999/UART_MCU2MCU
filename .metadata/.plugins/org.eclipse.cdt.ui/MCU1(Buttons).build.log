@@ -1,0 +1,22 @@
+14:58:21 **** Incremental Build of configuration Debug for project MCU1(Buttons) ****
+make all 
+Building file: ../UART.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"UART.d" -MT"UART.o" -c -o "UART.o" "../UART.c"
+Finished building: ../UART.c
+ 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: MCU1(Buttons).elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,MCU1(Buttons).map -mmcu=atmega16 -o "MCU1(Buttons).elf"  ./UART.o ./main.o   
+/usr/bin/sh: -c: line 1: syntax error near unexpected token `-Wl,-Map,MCU1(B'
+/usr/bin/sh: -c: line 1: `avr-gcc -Wl,-Map,MCU1(Buttons).map -mmcu=atmega16 -o "MCU1(Buttons).elf"  ./UART.o ./main.o   '
+make: *** [MCU1(Buttons).elf] Error 258
+"make all" terminated with exit code 2. Build might be incomplete.
+
+14:58:22 Build Failed. 1 errors, 0 warnings. (took 1s.404ms)
+

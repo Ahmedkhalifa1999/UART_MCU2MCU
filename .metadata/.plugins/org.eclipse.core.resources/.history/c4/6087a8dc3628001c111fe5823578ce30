@@ -1,0 +1,34 @@
+/*
+ * GPIO.h
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#ifndef GPIO_H_
+#define GPIO_H_
+
+#include <std_types.h>
+#include <avr/io.h>
+
+typedef enum {
+	PIN_INPUT = 0,
+	PIN_OUTPUT = 1
+}PIN_DIRECTION;
+
+typedef enum {
+	PORT_INPUT = 0,
+	PORT_OUTPUT = 0xFF
+}PORT_DIRECTION;
+
+#define GPIO_setPinDirection(PORT, PIN, DIRECTION) (PORT) = (DIRECTION)?((PORT) |= 1 << (PIN)):((PORT) &= ~(1 << (PIN)));
+#define GPIO_setPortDirection(PORT, DIRECION) (PORT) = (DIRECTION);
+
+#define GPIO_readPort(PORT) (PORT);
+#define GPIO_writePort(PORT, data) (PORT) = data;
+
+#define GPIO_readPin(PORT, PIN) ((PORT) >> (PIN)) & 1;
+#define GPIO_writePin(PORT, PIN, data) (PORT) = (data)?((PORT) |= 1 << (PIN)):((PORT) &= ~(1 << (PIN)));
+
+
+#endif /* GPIO_H_ */

@@ -1,0 +1,44 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#include "GPIO.h"
+#include "UART.h"
+
+#include <avr/io.h>
+
+void motor(char comm);
+
+int main(void) {
+	/*GPIO_setPinDirection(PORTA_ID, 0, PIN_OUTPUT);
+	GPIO_setPinDirection(PORTA_ID, 1, PIN_OUTPUT);
+	GPIO_setPinDirection(PORTA_ID, 2, PIN_OUTPUT);*/
+
+	DDRA = 0x00;
+
+	UART_init(RECEIVE, FIVE);
+
+	while(1) {
+		motor(UART_receive());
+	}
+}
+
+void motor(char comm) {
+	switch (comm) {
+	case 0:
+		GPIO_writePin(PORTA_ID, 0, 0);
+		break;
+	case 1:
+		GPIO_writePin(PORTA_ID, 0, 1);
+		GPIO_writePin(PORTA_ID, 1, 1);
+		GPIO_writePin(PORTA_ID, 2, 0);
+		break;
+	case 2:
+		GPIO_writePin(PORTA_ID, 0, 1);
+		GPIO_writePin(PORTA_ID, 1, 0);
+		GPIO_writePin(PORTA_ID, 2, 1);
+	}
+}

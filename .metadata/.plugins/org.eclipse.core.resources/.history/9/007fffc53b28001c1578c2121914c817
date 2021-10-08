@@ -1,0 +1,24 @@
+/*
+ * UART.c
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#include <avr/io.h>
+#include <UART.h>
+
+void UART_init(directionMode dir, dataSize dSize) {
+	UCSRB = (UCSRB & ~0x18) | (dir); /*Receiver & Transmitter Enable Bits)*/
+	UCSRC = (UCSRC & ~ 0x06) | (dSize); /*Set data size*/
+}
+
+void UART_send(data) {
+	while (!(UCSRA & (1<<UDRE))); /*waiting for Transmirt Data Register to be empty*/
+	UDR = data;
+}
+
+char UART_receive() {
+	while (!(UCSRA & (1<<RXC)))
+	return UDR;
+}

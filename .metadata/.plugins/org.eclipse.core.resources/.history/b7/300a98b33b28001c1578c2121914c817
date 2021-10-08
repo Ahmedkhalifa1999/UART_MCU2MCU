@@ -1,0 +1,22 @@
+/*
+ * UART.c
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#include <avr/io.h>
+#include <UART.h>
+
+void UART_init(directionMode dir) {
+
+}
+
+void UART_send(data) {
+	while (!(UCSRA & (1<<UDRE)));
+	UDR = data;
+}
+
+char UART_receive() {
+	return UDR;
+}

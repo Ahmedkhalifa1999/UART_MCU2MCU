@@ -1,0 +1,21 @@
+/*
+ * UART.h
+ *
+ *  Created on: Oct 8, 2021
+ *      Author: ahmed
+ */
+
+#ifndef UART_H_
+#define UART_H_
+
+typedef enum {
+	RECEIVE = 0,
+	TRANSMIT = 1,
+	BIDIRECTIONAL = 2
+}directionMode;
+
+void UART_init();
+void UART_send();
+char UART_receive();
+
+#endif /* UART_H_ */
