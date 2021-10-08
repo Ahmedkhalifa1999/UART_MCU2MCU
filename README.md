@@ -1,0 +1,2 @@
+# UART_MCU2MCU
+UART MCU to MCU for ASURT FSUK21 Technincal Mission
